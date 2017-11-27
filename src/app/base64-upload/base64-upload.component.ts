@@ -37,7 +37,6 @@ export class Base64UploadComponent {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
        const file = event.target.files[0];
-      console.log(file);
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.form.get('avatar').setValue({
@@ -52,14 +51,21 @@ export class Base64UploadComponent {
   onSubmit() {
     const formModel = this.form.value;
     this.loading = true;
-    console.log();
+    console.log(this.form.value.avatar.filename);
+    console.log(this.form.value.avatar.filetype);
+    console.log(this.form.value.avatar.value);
     // this.http.post('apiUrl', formModel)
-    this.http.post('http://localhost:3000/uploadFile', formModel );
-    // setTimeout(() => {
-    //   alert('done!');
-    //   this.loading = false;
-    // }, 1000);
-  }
+    // tslint:disable-next-line:max-line-length
+    this.http.post('http://localhost:3000/uploadFile', {filename: this.form.value.avatar.filename, filetype: this.form.value.avatar.filetype, value: this.form.value.avatar.value}).subscribe((res) => {
+          const result = res.json();
+          console.log(result);
+          setTimeout(() => {
+            console.log(formModel);
+            alert('done!');
+            this.loading = false;
+          }, 1000);
+        });
+        }
 
   clearFile() {
     this.form.get('avatar').setValue(null);

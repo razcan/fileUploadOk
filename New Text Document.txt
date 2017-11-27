@@ -1,0 +1,53 @@
+import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+
+  constructor(private http: Http) {}
+
+  title = 'app';
+  nume;
+  prenume;
+  dataNastere;
+  diplome;
+  Remarks;
+  AutoEval;
+  response;
+  rezultat;
+  array;
+  row;
+
+
+  afiseazadate() {
+    this.http.post('http://localhost:3000', {nume: this.nume , prenume: this.prenume, dataNastere: this.dataNastere, diplome: this.diplome,
+    Remarks: this.Remarks, AutoEval: this.AutoEval
+  }).subscribe((row) => {
+
+    const result = row.json();
+    console.log(result);
+    const array = row.json();
+    console.log(array);
+    });
+  }
+}
+handleSubmit(){
+var options = {
+  host: 'www.google.com',
+  port: 80,
+  path: '/index.html'
+};
+
+http.get(options, function(res) {
+  console.log("Got response: " + res.statusCode);
+}).on('error', function(e) {
+  console.log("Got error: " + e.message);
+});
+}
